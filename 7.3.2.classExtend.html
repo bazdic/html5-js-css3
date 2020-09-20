@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <p>Please see the F12 console</p>
+    <script>
+        /* ES6 syntax */
+        class PersonAsClass {
+            constructor(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+
+            haveBirthday() {
+                this.age++;
+            }
+        }
+
+        class StudentAsClass extends PersonAsClass {
+            constructor(name, age, subject) {
+                super(name, age); // call new PersonAsClass(name, age)
+
+                this.subject = subject;
+            }
+
+            toString() {
+                return `Name: ${this.name}, Age: ${this.age}, Subject: ${this.subject}`;
+            }
+        }
+
+        var sac = new StudentAsClass("MilanAsClass", 20, "Fyzika");
+        sac.haveBirthday(); sac.haveBirthday();
+        console.log(sac.toString());
+    </script>
+</body>
+</html>

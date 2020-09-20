@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FLEX layout</title>
+    <style type="text/css">
+        .flex-container {
+            display: flex;
+
+            margin-bottom: 20px;
+
+            resize: horizontal;
+            overflow: hidden;
+        }
+
+        #normal {
+            width: 200px;
+            /* polozky akurat vojdu */
+        }
+
+        #grow {
+            width: 300px;
+            /* zvacsujeme o 100px v pomere 3:1 */
+        }
+
+        #shrink {
+            width: 100px;
+            /* zmensujeme o 100px v pomere 3:1 */
+        }
+
+        .flex-item {
+            width: 100px;
+            flex-basis: auto;
+
+            height: 100px;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 100px;
+            border: red solid 1px;
+            box-shadow: #808080 2px 2px;
+        }
+
+        .flex-item:nth-child(1) {
+            flex-grow: 3;
+            flex-shrink: 3;
+        }
+
+        .flex-item:nth-child(2) {
+            flex-grow: 1;
+            flex-shrink: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <p>
+        <strong><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/flex/" target="_blank">MDN Flex</a></strong>,
+        <strong><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">CssTricks Flexbox</a></strong>
+    </p>
+
+    <span>normal (container width 200px)</span>
+    <div id="normal" class="flex-container">
+        <div class="flex-item">3x</div>
+        <div class="flex-item">1x</div>
+    </div>
+
+    <span>shrink (container width 100px)</span>
+    <div id="shrink" class="flex-container">
+        <div class="flex-item">3x</div>
+        <div class="flex-item">1x</div>
+    </div>
+
+    <span>grow (container width 300px)</span>
+    <div id="grow" class="flex-container">
+        <div class="flex-item">3x</div>
+        <div class="flex-item">1x</div>
+    </div>
+</body>
+
+</html>

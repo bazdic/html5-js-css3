@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promises</title>
+</head>
+<body>
+    <p>Please see the F12 console</p>
+    <script>
+        const logToConsole = (text) => console.log(text);
+
+        // callback
+        const getDateUsingCallbacks = () => setTimeout(logToConsole, 1000, new Date());
+        getDateUsingCallbacks();
+        
+        // promises
+        const getDateUsingPromises = () => new Promise(resolve => setTimeout(resolve, 1000, new Date()));
+        getDateUsingPromises()
+            .then(logToConsole);
+    </script>
+</body>
+</html>

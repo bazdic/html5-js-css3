@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        #curvedarrow {
+            margin: 30px;
+            position: relative;
+            width: 0;
+            height: 0;
+            border-top: 9px solid transparent;
+            border-right: 9px solid red;
+            transform: rotate(10deg);
+            
+            transform-origin: 50% 50%;
+            transition: all 1s;
+            display: block;
+        }
+
+            #curvedarrow:after {
+                content: "";
+                position: absolute;
+                border: 0 solid transparent;
+                border-top: 3px solid red;
+                border-radius: 20px 0 0 0;
+                top: -12px;
+                left: -9px;
+                width: 12px;
+                height: 12px;
+                transform: rotate(45deg);
+                
+                transform-origin: 50% 50%;
+                transition: all 1s;
+            }
+
+            #curvedarrow:hover {
+                border-right-color: firebrick;
+                transform: scale(3, 3);
+            }
+
+            #curvedarrow:hover:after {
+                border-top-color: firebrick;
+            }
+    </style>
+</head>
+<body>
+    <!--<div id="curvedarrow"></div>-->
+    <a id="curvedarrow" href="https://css-tricks.com/examples/ShapesOfCSS/"></a>
+</body>
+</html>

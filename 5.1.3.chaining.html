@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaining Promises</title>
+</head>
+<body>
+    <p>Please see the F12 console</p>
+    <script>
+        const timeoutIntervalInMs = 500;
+        const logToConsole = (text, caller) => console.log(text, caller);
+        
+        // original code (leads to callback hell)
+        const getAndProcessOriginal = function(caller) {
+            setTimeout(function(rawData) { // get data
+                setTimeout(function(processedData) { // process data
+                    logToConsole(processedData, caller) // output data
+                }, timeoutIntervalInMs, rawData.toString());
+            }, timeoutIntervalInMs, new Date());
+        };
+        getAndProcessOriginal("from getAndProcessOriginal");
+        
+        // callback
+        const getAndProcessUsingCallbacks = (caller) => {
+            const getData = (callback) => {
+                const rawData = new Date();
+                setTimeout(() => callback(rawData), timeoutIntervalInMs);
+            };
+            const processData = (rawData, callback) => {
+                const processedData = rawData.toString();
+                setTimeout(() => callback(processedData), timeoutIntervalInMs);
+            };
+
+            getData((rawData) => 
+                processData(rawData, (processedData) => 
+                    logToConsole(processedData, caller)));
+        };
+        getAndProcessUsingCallbacks("from getAndProcessUsingCallbacks");
+
+        // promises
+        const getAndProcessUsingPromises = (caller) => {
+            const getData = () => {
+                const rawData = new Date();
+                return new Promise(resolve => setTimeout(() => resolve(rawData), timeoutIntervalInMs));
+            };
+            const processData = (rawData) => {
+                const processedData = rawData.toString();
+                return new Promise(resolve => setTimeout(() => resolve(processedData), timeoutIntervalInMs));
+            };
+
+            getData()
+                .then(rawData => processData(rawData))
+                .then(processedData => logToConsole(processedData, caller));
+        };
+        getAndProcessUsingPromises("from getAndProcessUsingPromises");
+
+        // async/await
+        const getAndProcessUsingAsync = async (caller) => {
+            const getDataAsync = async () => {
+                const rawData = new Date();
+                return new Promise(resolve => setTimeout(() => resolve(rawData), timeoutIntervalInMs));
+            };
+
+            const processDataAsync = async (rawData) => {
+                const processedData = rawData.toString();
+                return new Promise(resolve => setTimeout(() => resolve(processedData), timeoutIntervalInMs));
+            };
+
+            const rawData = await getDataAsync();
+            const processedData = await processDataAsync(rawData);
+            logToConsole(processedData, caller);
+        }
+        getAndProcessUsingAsync("from getAndProcessUsingAsync");
+    </script>
+</body>
+</html>

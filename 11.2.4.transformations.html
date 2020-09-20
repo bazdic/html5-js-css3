@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+
+<body>
+    <canvas id="myCanvas">Sorry, your browser does not support canvas.</canvas>
+    <script type="text/javascript">
+        // Get the canvas element and its drawing context.
+        var canvas = document.getElementById('myCanvas');
+        var context = canvas.getContext('2d');
+
+        // Clear any existing content in the canvas.       
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw first rectangle.       
+        context.fillStyle = "yellow";
+        context.fillRect(0, 0, 250, 100);
+
+        // Draw second rectangle.  
+        context.transform(1, 0.5, -0.5, 1, 30, 10);
+        context.fillStyle = "red";
+        context.fillRect(0, 0, 250, 100);
+
+        // Draw first rectangle. 
+        context.transform(1, 0.5, -0.5, 1, 30, 10);
+        context.fillStyle = "blue";
+        context.fillRect(0, 0, 250, 100);
+    </script>
+</body>
+
+</html>

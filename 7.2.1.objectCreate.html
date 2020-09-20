@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+
+<body>
+    <p>Please see the F12 console</p>
+    <script>
+        // define constructor and properties
+        var Account = function (id, name) {
+            this.id = id;
+            this.name = name;
+            this.balance = 0;
+            this.numTransactions = 0;
+        }
+
+        // define methods
+        Account.prototype = {
+            deposit: function (amount) {
+                this.balance += amount;
+                this.numTransactions++;
+            },
+            update: function () {
+                this.name += "-updated";
+            },
+            toString: function () {
+                return "Owner: " + this.name + ", Id: " + this.id + ", Balance: " + this.balance + ", Transactions: " + this.numTransactions;
+            }
+        }
+
+        // create first instance
+        var obj1 = new Account(1, "John");
+
+        // this is how obj1 looks like
+        // var obj1 = {
+        //     id = 1,
+        //     name = "John",
+        //     balance = 0,
+        //     numTransactions = 0,
+        //     deposit: function (amount) {
+        //         this.balance += amount;
+        //         this.numTransactions++;
+        //     },
+        //     update: function () {
+        //         this.name += "-updated";
+        //     },
+        //     toString: function () {
+        //         return "Owner: " + this.name + ", Id: " + this.id + ", Balance: " + this.balance + ", Transactions: " + this.numTransactions;
+        //     }
+        // }
+
+        // modify some properties
+        var accountFactory = function(id, name) {
+            var props = {
+                // read-only
+                id: { value: id },
+                // read-only
+                name: { writable: false, configurable: true, value: name },
+                // writable, property can't be deleted
+                balance: { writable: true, configurable: false, value: 0 },
+                // writable
+                numTransactions: { writable: true, configurable: true, value: 0 }
+            }
+
+            return Object.create(Account.prototype, props);
+        }
+        // create second instance
+        var obj2 =  accountFactory(2, "Mary");
+
+        obj1.deposit(100); obj1.deposit(200); obj1.update();
+        console.log("new Account(): " + obj1);
+
+        obj2.deposit(100); obj2.deposit(200); obj2.update();
+        console.log("Object.create(Account.prototype): " + obj2);
+        console.log("NOTE: Mary's name was not updated!");
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Responsive Layout Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fffffc;
+            font: normal 16px/2 "Times New Roman";
+            display: grid;
+            grid-template-columns: 1fr 20em;
+            grid-template-rows: 50px 1fr 50px;
+            grid-template-areas: 
+                "header header"
+                "main aside"
+                "footer footer";
+        }
+
+            body > * {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #fffff9;
+                color: #5f5a44;
+                outline: 1px dashed #ccc;
+                font-size: 1.25rem;
+                text-shadow: 1px 1px 2px #aaa;
+            }
+
+        header {
+            grid-area: header;
+        }
+
+            header nav {
+                width: 100%;
+            }
+
+            header nav .nav-menu {
+                padding: 0;
+                color: #3c8879;
+                display: flex;
+            }
+
+            header nav .nav-menu li {
+                padding: 10px;
+                list-style-type: none;
+            }
+
+            header nav .nav-menu li.logout {
+                margin-left: auto;
+            }
+
+        main {
+            grid-area: main;
+            column-count: 2;
+            transition: all 1s;
+        }
+
+        aside {
+            grid-area: aside;
+        }
+
+        main, 
+        aside {
+            display: block;
+            padding: 2rem;
+            font-size: 1rem;
+            text-shadow: none;
+            text-align: justify;
+        }
+
+        footer {
+            grid-area: footer;
+        }
+
+        h2 {
+            margin: 0;
+        }
+
+        @media screen and (max-width: 80rem) {
+            main {
+                column-count: 1;
+            }
+        }
+
+        @media screen and (max-width: 60rem) {
+            body {
+                height: initial;
+                margin: 0;
+                width: 100%;
+                grid-template-columns: 1fr;
+                grid-template-rows: 50px 1fr auto 50px;
+                grid-template-areas: 
+                    "header"
+                    "main"
+                    "aside"
+                    "footer";
+            }
+
+            main {
+                column-count: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul class="nav-menu">
+                <li>home</li>
+                <li>profile</li>
+                <li class="logout">logout</li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Basic Concepts</h2>
+            <p>Grid Layout gives us a method of creating grid structures that are described in CSS and not in HTML. It helps us to create layouts that can be redefined using Media Queries and adapt to different contexts.</p>
+            <p>Grid Layout lets us properly separate the order of elements in the source from their visual presentation. As a designer this means you are free to change the location of page elements as is best for your layout at different breakpoints and not need to compromise a sensible structured document for your responsive design.</p>
+            <p>It’s very easy to make grid adapt to the available space. With each element having an area on the grid, things are not in risk of overlapping due to text size change, more content than expected or small viewports.</p>
+            <p>Unlike with an HTML table-based layout, you can layer items on the grid. So one item can overlap another if required.</p>
+        </section>
+        <section>
+            <h2>Grid or Flexbox?</h2>
+            <p>One of the most common questions I get when talking about Grid is about whether this is a competing specification to Flexbox, and when should you use one or the other (assuming that there was browser support equally for both). I usually defer to this email from Tab Atkins on the www-style list.</p>
+            <p>Flexbox is for one-dimensional layouts - anything that needs to be laid out in a straight line (or in a broken line, which would be a single straight line if they were joined back together). Grid is for two-dimensional layouts. It can be used as a low-powered flexbox substitute (we’re trying to make sure that a single-column/row grid acts very similar to a flexbox), but that’s not using its full power.</p>
+            <p>If you only need to define a layout as a row or a column, and you would like the flexibility to respond to the content of that row then you probably want flexbox. If you want to define a grid and fit content into it in two dimensions - you need grid.</p>
+        </section>
+    </main>
+    <aside>
+            <h2>Status of the spec</h2>
+            <p>Chrome, Firefox and Safari shipped grid support in March 2017. IE10, 11 and Edge 15 and lower support an older, prefixed spec. In October 2017 Edge will update to the new specification to match other implementations. See Can I Use, and also the browsers page on this site which details where to log bugs should you find any.</p>
+    </aside>
+    <footer>footer</footer>
+</body>
+
+</html>

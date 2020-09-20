@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Closures</title>
+    <script src="jquery-2.1.1.js"></script>
+</head>
+<body>
+    <article>
+        <h1>Closures</h1>
+        <div>
+            <input id="txtNumber" type="number" />
+            <input id="btnIncrement" type="button" value="Increment" />
+        </div>
+        <p>Please see the F12 console</p>
+    </article>
+    <script>
+        class IncrementNumberView {
+            constructor(textbox, button) {
+                this.textbox = textbox;
+                this.button = button;
+
+                this.initialize();
+            }
+
+            initialize() {
+                // closure leads to unexpected "this"
+                $(this.button).click(function () {
+                    this.textbox.value = this.calculate();
+                });
+
+                // self approach (don't do this)
+                /*var self = this;
+                $(this.button).click(function () {
+                    self.textbox.value = self.calculate();
+                });*/
+
+                // bind approach (old school)
+                /*$(this.button).click(function () {
+                    this.textbox.value = this.calculate();
+                }.bind(this));*/
+                
+                // arrow function approach (best practice)
+                /*$(this.button).click(() => {
+                    this.textbox.value = this.calculate();
+                });*/
+            }
+
+            calculate() {
+                var value = this.textbox.value || 0;
+                return ++value;
+            }
+        }
+
+        var calc = new IncrementNumberView($("#txtNumber")[0], $("#btnIncrement")[0]);
+    </script>
+</body>
+</html>

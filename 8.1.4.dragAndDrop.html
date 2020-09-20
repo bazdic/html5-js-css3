@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        *[draggable="true"] {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <span draggable="true" ondragstart="handleDrag(event)">Drag me!</span>
+    <input ondragover="handleDragOver(event)" ondrop="handleDrop(event)" placeholder="drop here ..." />
+
+    <script>
+        // is usually used in order to visualise drag operation (cursor change)
+        function handleDrag(event) {
+            event.dataTransfer.effectAllowed = "move"; // allowed operation type
+            event.dataTransfer.setData("text", event.target.innerHTML); // store dragged element in 'text' property
+            // IE currently doesn't support full range of MIME types, use only text or URL
+        }
+
+        // is usually used in order to visualise drop targets
+        function handleDragOver(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            event.dataTransfer.dropEffect = "move"; // Display a "copy" cursor     
+        }
+
+        // handles drop
+        function handleDrop(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            event.target.value = event.dataTransfer.getData("text"); // set input's text to dragged element
+        }
+    </script>
+</body>
+
+</html>

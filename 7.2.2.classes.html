@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+
+<body>
+    <p>Please see the F12 console</p>
+    <script>
+        /* ES6 syntax */
+        class BankAccount {
+            constructor(id, name) {
+                this.id = id;
+                this.name = name;
+                this.balance = 0;
+                this.numTransactions = 0;
+            }
+
+            deposit(amount) {
+                this.balance += amount;
+                this.numTransactions++;
+            }
+
+            update() {
+                this.name += "-updated";
+            }
+
+            toString() {
+                return `Owner: ${this.name}, Id: ${this.id}, Balance: ${this.balance}, Transactions: ${this.numTransactions}`;
+            }
+        }
+
+        var obj3 = new BankAccount(3, "Phil");
+        obj3.deposit(100); obj3.deposit(200); obj3.update();
+        console.log("(ES6) new BankAccount(): " + obj3);
+    </script>
+</body>
+
+</html>

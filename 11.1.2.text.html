@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" id="textSpans">
+        <defs>
+            <path id="wavyPath2" d="M 50 250                          
+                  C 150 150 250 50 350 150                          
+                  C 450 250 550 350 650 250                          
+                  C 750 150 850 150 850 150" />
+        </defs>
+        <text font-size="46" fill="orange" font-family="Verdana" stroke="purple">
+            <textPath xlink:href="#wavyPath2">
+                <tspan>Cubic equation: 5x</tspan>
+                <tspan dy="-30" fill="green" font-size="33">3</tspan> <!--move 30px up because it represents an index-->
+                <tspan dy="+30"> + 4x</tspan>
+                <tspan dy="-30" fill="green" font-size="33">2</tspan>
+                <tspan dy="+30"> + 6x - 5 = 0</tspan>
+            </textPath>
+        </text>
+    </svg>
+</body>
+</html>

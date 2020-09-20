@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+        canvas {
+            border: 2px solid darkblue;
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+<body>
+    <h1>Getting started with canvas</h1>
+    <canvas id="myCanvas">No canvas support in this browser</canvas>
+    <script>
+        var canvas = document.getElementById('myCanvas');
+        var context = canvas.getContext('2d');
+        context.fillStyle = "red";
+        context.fillRect(20, 20, canvas.width - 40, canvas.height - 40);
+    </script>
+</body>
+</html>

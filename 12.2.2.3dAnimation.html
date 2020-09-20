@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>3D Transformations &amp; Animations</title>
+
+    <style>
+        body { 
+            background: #eee; 
+        }
+
+        div {
+            width: 200px;
+            height: 200px;
+            font-family: arial;
+            font-size: 40pt;
+            text-align: center;
+            position: absolute;
+            color: rgba(0, 0, 0, 0.3);
+        }
+
+        #container {
+            margin: 200px;
+            transition: transform 3s;
+            width: 200px;
+            perspective: 400px;
+
+            /*perspective: 2000px;
+            transform-style: preserve-3d;
+            transform: rotateX(-40deg) rotateY(32deg);*/
+        }
+
+            #container:hover {
+                transform: rotate(90deg);
+            }
+
+        #rightFace {
+            background: linear-gradient(270deg, white, yellow);
+            transform: rotateY(90deg) translateZ(100px);
+        }
+
+        #leftFace {
+            background: linear-gradient(90deg, white, orange);
+            transform: rotateY(-90deg) translateZ(100px);
+        }
+
+        #topFace {
+            background: linear-gradient(180deg, white, purple);
+            transform: rotateX(90deg) translateZ(100px);
+        }
+
+        #bottomFace {
+            background: linear-gradient(0deg, white, red);
+            transform: rotateX(-90deg) translateZ(100px);
+        }
+
+        #backFace {
+            background: cyan;
+            transform: rotateY(-180deg) translateZ(100px);
+        }
+
+        #frontFace {
+            background: rgba(255, 255, 255, 0.9);
+            transform: rotateY(0) translateZ(100px);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Make sure you try it with transform-style: preserve-3d</h1>
+    <div id="container">
+        <div id="rightFace">right</div>
+        <div id="leftFace">left</div>
+        <div id="topFace">top</div>
+        <div id="bottomFace">bottom</div>
+        <div id="backFace">back</div>
+        <div id="frontFace">front</div>
+    </div>
+</body>
+
+</html>

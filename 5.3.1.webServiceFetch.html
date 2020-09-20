@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+
+<body>
+    <fieldset>
+        <legend>Microsoft GitHub repositories</legend>
+        <ul id="repos"></ul>
+    </fieldset>
+    
+    <script>
+        function processRepositories(data) {
+            var repos = document.getElementById("repos");
+            var html = "";
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                html += `<li>${item.name}</li>`;
+            }
+            repos.innerHTML = html;
+        }
+
+        const listMicrosoftRepositories = async () => {
+            const response = await fetch("https://api.github.com/users/Microsoft/repos", { method: "GET" });
+            const data = await response.json();
+            processRepositories(data);
+        };
+        listMicrosoftRepositories();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Validation Types</title>
+    <style>
+        article {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        article form {
+            width: 200px;
+            flex: 0 1 auto;
+            margin-right: 20px;
+        }
+
+        .field {
+            margin-bottom: 10px;
+        }
+
+        .field label {
+            display: block;
+        }
+
+        .field label.error {
+            color: red;
+            /*display: inline;*/
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Validation Types</h1>
+    </header>
+    <article>
+        <form id="frmOnSubmit">
+            <fieldset>
+                <legend>JS - on submit</legend>
+                <div class="field">
+                    <label for="txtName1">Name (required, 2+ chars)</label>
+                    <input id="txtName1" name="name" type="text" autocomplete="off" />
+                </div>
+                <div class="field">
+                    <label for="txtMinWeight1">Min Weight (required)</label>
+                    <input id="txtMinWeight1" type="text" name="minWeight" autocomplete="off" />
+                </div>
+                <div class="field">
+                    <label for="txtCurWeight1">Current Weight (required)</label>
+                    <input id="txtCurWeight1" type="text" name="curWeight" autocomplete="off" />
+                </div>
+                <div>
+                    <input type="submit" value="Submit" />
+                </div>
+            </fieldset>
+        </form>
+        <form id="frmOnInput">
+            <fieldset>
+                <legend>JS - on input</legend>
+                <div class="field">
+                    <label for="txtName2">Name (required, 2+ chars)</label>
+                    <input id="txtName2" name="name" minlength="2" type="text" required autocomplete="off" />
+                </div>
+                <div class="field">
+                    <label for="txtMinWeight2">Min Weight (required)</label>
+                    <input id="txtMinWeight2" type="number" name="minWeight" required autocomplete="off" />
+                </div>
+                <div class="field">
+                    <label for="txtCurWeight2">Current Weight (required)</label>
+                    <input id="txtCurWeight2" type="number" name="curWeight" required autocomplete="off" />
+                </div>
+                <div>
+                    <input type="submit" value="Submit" />
+                </div>
+            </fieldset>
+        </form>
+    </article>
+    <script>
+        function validateFormOnSubmit(frmId) {
+            var fields = getFormFields(frmId);
+
+            // validate Name (required, 2+ characters)
+            if (containsWhitespace(fields.name.value) === false && fields.name.value.trim().length > 1) {
+                // do nothing
+            }
+            else {
+                return false;
+            }
+
+            // validate Minimum Weight (required)
+            if (containsWhitespace(fields.minWeight.value) === false && isNaN(parseInt(fields.minWeight.value.trim())) === false) {
+                // do nothing
+            }
+            else {
+                return false;
+            }
+
+            // validate Current Weight (required)
+            if (containsWhitespace(fields.curWeight.value) === false && isNaN(parseInt(fields.curWeight.value.trim())) === false) {
+                // do nothing
+            }
+            else {
+                return false;
+            }
+
+            // validate Minimum Weight <= Current Weight
+            if (isCurrentWeightFieldValid(fields.curWeight, fields.minWeight)) {
+                // do nothing
+            }
+            else {
+                return false;
+            }
+
+            return true;
+        }
+
+        function validateFormOnInput(frmId) {
+            var fields = getFormFields(frmId);
+
+            // validate Name (2+ characters)
+            if (fields.name.reportValidity) { // MODERN
+                if (areFieldsFilledIn([fields.name])) {
+                    fields.name.reportValidity();
+                }
+            } else { // IE
+                if (fields.name.value.trim().length >= 2) {
+                    fields.name.setCustomValidity("");
+                }
+                else {
+                    fields.name.setCustomValidity("Minimum length of name must be more than 1 character.");
+                }
+            }
+
+            // validate Minimum Weight <= Current Weight
+            if (areFieldsFilledIn([fields.curWeight, fields.minWeight])) {
+                // ALL
+                if (isCurrentWeightFieldValid(fields.curWeight, fields.minWeight)) {
+                    fields.curWeight.setCustomValidity("");
+                }
+                else {
+                    fields.curWeight.setCustomValidity("Minimum Weight must be lower than or equal to Current Weight.");
+                }
+
+                if (fields.curWeight.reportValidity) { // MODERN
+                    fields.curWeight.reportValidity();
+                }
+            }
+        }
+
+        function isCurrentWeightFieldValid(curWeight, minWeight) {
+            return parseInt(curWeight.value.trim()) >= parseInt(minWeight.value.trim());
+        }
+
+        function areFieldsFilledIn(fields) {
+            return fields.every(function (field) {
+                return field.value !== "";
+            })
+        }
+
+        function getFormIndex(frmId) {
+            var frmIndex = 0;
+            switch (frmId) {
+                case "frmOnSubmit":
+                    frmIndex = 0;
+                    break;
+                case "frmOnInput":
+                    frmIndex = 1;
+                    break;
+            }
+            return frmIndex;
+        }
+
+        function getFormFields(frmId) {
+            var frmIndex = getFormIndex(frmId);
+            return {
+                name: document.getElementsByName("name")[frmIndex],
+                minWeight: document.getElementsByName("minWeight")[frmIndex],
+                curWeight: document.getElementsByName("curWeight")[frmIndex]
+            }
+        }
+
+        function containsWhitespace(text) {
+            var whitespaceTestRegex = /[\s]{1,}/;
+            return String(text).search(whitespaceTestRegex) > -1;
+        }
+
+        (function () {
+            // on submit validation example
+            document.forms.frmOnSubmit.onsubmit = function () {
+                var isValid = validateFormOnSubmit();
+                if (isValid === false) {
+                    alert("Validation failed!");
+                }
+                return isValid;
+            }
+            /*
+            // alternative approach using "submit" event listener instead of "onsubmit" callback
+            document.forms.frmOnSubmit.addEventListener("submit", function (event) {
+                var isValid = validateFormOnSubmit(event.target.id);
+                if (isValid === false) {
+                    alert("Validation failed!");
+                    event.preventDefault();
+                }
+            });
+            */
+
+            // on input validation example
+            var foiFields = getFormFields("frmOnInput");
+            foiFields.name.addEventListener("input", function (event) {
+                validateFormOnInput(event.target.form.id);
+            });
+            // ignore whitespace check for the sake of simplicity
+            foiFields.minWeight.addEventListener("input", function (event) {
+                validateFormOnInput(event.target.form.id);
+            });
+            foiFields.curWeight.addEventListener("input", function (event) {
+                validateFormOnInput(event.target.form.id);
+            });
+        })();
+    </script>
+</body>
+
+</html>

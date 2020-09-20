@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CSS Grid (IE)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fffffc;
+            box-shadow: 0 0 5px 0 #5f5a44;
+            font: normal 16px/1 "Times New Roman";
+            display: grid;
+            grid-template-rows: 50px 1fr 50px;
+            grid-template-columns: repeat(12, 1fr);
+
+            /* IE */
+            display: -ms-grid;
+            -ms-grid-rows: 50px 1fr 50px;
+            -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        }
+
+        body>* {
+            display: flex;
+            display: -ms-flexbox;
+            justify-content: center;
+            align-items: center;
+            background-color: #fffff9;
+            color: #5f5a44;
+            outline: 1px dashed #ccc;
+            font-size: 1.25rem;
+            text-shadow: 1px 1px 2px #aaa;
+        }
+
+        header {
+            grid-column: 1 / -1;
+
+            /* IE */
+            -ms-grid-row: 1;
+            -ms-grid-column: 1;
+            -ms-grid-column-span: 12;
+            line-height: 50px;
+        }
+
+        header nav {
+            width: 100%;
+        }
+
+        header nav .nav-menu {
+            margin: 0;
+            padding: 0;
+            color: #3c8879;
+            display: flex;
+            display: -ms-flexbox;
+        }
+
+        header nav .nav-menu li {
+            padding: 0 10px;
+            list-style-type: none;
+        }
+
+        header nav .nav-menu li.logout {
+            margin-left: auto;
+        }
+
+        .main {
+            grid-column: 1 / 11;
+
+            /* IE */
+            -ms-grid-row: 2;
+            -ms-grid-column: 1;
+            -ms-grid-column-span: 10;
+        }
+
+        aside {
+            grid-column: 11 / -1;
+
+            /* IE */
+            -ms-grid-row: 2;
+            -ms-grid-column: 11;
+            -ms-grid-column-span: 2;
+        }
+
+        footer {
+            grid-column: 1 / -1;
+
+            /* IE */
+            -ms-grid-row: 3;
+            -ms-grid-column: 1;
+            -ms-grid-column-span: 12;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul class="nav-menu">
+                <li>home</li>
+                <li>profile</li>
+                <li class="logout">logout</li>
+            </ul>
+        </nav>
+    </header>
+    <div class="main">content</div>
+    <aside>info</aside>
+    <footer>footer</footer>
+</body>
+
+</html>

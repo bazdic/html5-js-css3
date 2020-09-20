@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript" src="jquery-2.1.1.min.js"></script>
+    <style type="text/css">
+        #status {
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            border: 1px solid black;
+            border-radius: 50%;
+        }
+
+        .isOnline { 
+            background: lime;
+        }
+
+        .isOffline {
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <label for="txtLat">Latitude:</label><input id="txtLat" type="text" readonly="readonly" />
+    <label for="txtLong">Longitude:</label><input id="txtLong" type="text" readonly="readonly" />
+    <span id="status"> </span>
+    <div id="linkContainer"></div>
+
+    <script type="text/javascript">
+        $(function () {
+            // update location info
+            updateCurrentPosition();
+
+            function updateCurrentPosition() {
+                // get current position
+                navigator.geolocation.getCurrentPosition(
+                    myPositionCallbackFunction,
+                    myPositionErrorCallbackFunction,
+                    { enableHighAccuracy: true, timeout: 5000 });
+            }
+
+            function myPositionCallbackFunction(position) {
+                $('#txtLat').val(position.coords.latitude);
+                $('#txtLong').val(position.coords.longitude);
+
+                var url = "https://www.google.sk/maps/@" + position.coords.latitude + "," + position.coords.longitude + ",16z";
+                // add link to container
+                $('#linkContainer').html("<a href='" + url + "'>Show in Google Maps</a>");
+            }
+
+            function myPositionErrorCallbackFunction(error) {
+                alert(error.message);
+
+                // will return true in case of lost connectivity error
+                //alert(error.code === PositionError.POSITION_UNAVAILABLE);
+            }
+
+            var status = $('#status');
+            var isOnlineClass = "isOnline";
+            var isOfflineClass = "isOffline";
+            
+            // initialize status icon
+            onlineStatusChanged(navigator.onLine);
+
+            // attach status change events
+            $(window).on("online", function () { onlineStatusChanged(true) });
+            $(window).on("offline", function () { onlineStatusChanged(false) });
+
+            function onlineStatusChanged(becomesOnline) {
+                if (becomesOnline) {
+                    status.removeClass(isOfflineClass);
+                    status.addClass(isOnlineClass);
+
+                    // we need to update position in case we were offline first
+                    updateCurrentPosition();
+                }
+                else {
+                    status.removeClass(isOnlineClass);
+                    status.addClass(isOfflineClass);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

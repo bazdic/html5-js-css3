@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>readAsText</title>
+</head>
+<body>
+    <fieldset><input type="file" id="theTextFile" onchange="onLoadTextFile()" /></fieldset>
+    <fieldset><textarea id="theMessageArea" rows="30" cols="40"></textarea></fieldset> 
+    <script type="text/javascript">
+        function onLoadTextFile() {
+            var theFileElem = document.getElementById("theTextFile");
+            // Get the File object selected by the user, and make sure it is a text file.
+            if (theFileElem.files.length != 0 && theFileElem.files[0].type.match(/text.*/)) {
+                // Create a FileReader and handle the onload and onerror events.
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var theMessageAreaElem = document.getElementById("theMessageArea");
+                    theMessageAreaElem.value = e.target.result;
+                };
+                reader.onerror = function (e) {
+                    alert("Cannot load text file");
+                };
+
+                // Read text file (the second parameter is optional - the default encoding is "UTF-8").
+                reader.readAsText(theFileElem.files[0], "UTF-8");
+            }
+            else { alert("Please select a TEXT file"); }
+        }
+    </script>
+</body>
+
+</html>

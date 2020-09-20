@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Web Workers</title>
+    <script src="fibonacci.js"></script>
+    <style>
+        h2 {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Fibonacci Series</h1>
+        <h2>!!!! Run Chrome with --allow-file-access-from-files OR host page in web server OR use Firefox instead  !!!!</h2>
+    </header>
+    <article>
+        
+        <div>
+            <label for="txtNumber">Enter some number:</label>
+            <input id="txtNumber" type="number" />
+            <input id="btnNoWorker" type="button" value="Generate" />
+            <input id="btnWorker" type="button" value="Generate using Worker" />
+        </div>
+        <ol id="lstResults">
+
+        </ol>
+    </article>
+
+    <script>
+        var btnNoWorker = document.getElementById("btnNoWorker");
+        var btnWorker = document.getElementById("btnWorker");
+        var txtNumber = document.getElementById("txtNumber");
+        var lstResults = document.getElementById("lstResults");
+        
+        btnNoWorker.addEventListener("click", function () {
+            var number = parseInt(txtNumber.value);
+            var results = calculateFibonacciSequence(number);
+            showResults(results);
+        });
+
+        btnWorker.addEventListener("click", function () {
+            var number = parseInt(txtNumber.value);
+            var workerFileUrl = "fibonacci.js";
+            var webWorker = new Worker(workerFileUrl);
+            webWorker.addEventListener("message", handleMessage);
+            webWorker.postMessage(number);
+        });
+
+        function handleMessage(message) {
+            showResults(message.data);
+        }
+
+        function showResults(numbers) {
+            var html = "";
+            numbers.forEach(function (number) {
+                html += "<li>" + number + "</li>";
+            });
+
+            lstResults.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

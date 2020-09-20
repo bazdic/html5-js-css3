@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>HTML5 - New Form Input Types</title>
+    <link rel="stylesheet" href="reset.css" />
+    <style>
+        html {
+            font-size: 62.5%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            font-size: 1.5rem;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-left: 1rem;
+            line-height: 2;
+            text-shadow: 1px 1px 2px #333;
+        }
+        h3 {
+            font-size: 2rem;
+        }
+        code {
+            font-family: monospace;
+        }
+
+        section {
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: 10px;
+        }
+
+            section fieldset {
+                background: #eee;
+                border: 1px solid #333;
+                border-radius: 5px;
+                box-shadow: #ccc 1px 3px;
+                width: 200px;
+                height: 220px;
+                flex: 1 1 auto;
+                margin-bottom: 5px;
+                margin-right: 10px;
+                padding: 10px;
+            }
+
+                section fieldset legend {
+                    color: #000;
+                    text-transform: uppercase;
+                    text-shadow: 1px 1px 2px #333;
+                }
+
+                section fieldset h3 {
+                    text-transform: uppercase;
+                    line-height: 2;
+                }
+
+                section fieldset input[type="range"] {
+                    width: 150px;
+                }
+
+                section fieldset code {
+                    border: 1px solid #aaa;
+                    padding: 3px;
+                    display: block;
+                    background: #ddd;
+                }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HTML5 - New Form Input Types</h1>
+    </header>
+    <article>
+        <form>
+            <section>
+                <fieldset>
+                    <legend>date</legend>
+                    <input type="date" placeholder="dd/mm/yyyy" />
+                    <h3>Markup</h3>
+                    <code>&lt;input type=&quot;date&quot;&gt;</code>
+                </fieldset>
+
+                <fieldset>
+                    <legend>datetime</legend>
+                    <input type="datetime" placeholder="dd/mm/yyyy hh:mm" />
+                    <h3>Markup</h3>
+                    <code>&lt;input type=&quot;datetime&quot;&gt;</code>
+                </fieldset>
+
+                <fieldset>
+                    <legend>datetime-local</legend>
+                    <input type="datetime-local" placeholder="dd/mm/yyyy hh:mm" />
+                    <h3>Markup</h3>
+                    <code>&lt;input type=&quot;datetime-local&quot;&gt;</code>
+                </fieldset>
+
+                <fieldset>
+                    <legend>month</legend>
+                    <input type="month" placeholder="mmmm yyyy" />
+                    <h3>Markup</h3>
+                    <code>&lt;input type=&quot;month&quot;&gt;</code>
+                </fieldset>
+
+                <fieldset>
+                    <legend>time</legend>
+                    <input type="time" placeholder="hh:mm" />
+                    <h3>Markup</h3>
+                    <code>&lt;input type=&quot;time&quot;&gt;</code>
+                </fieldset>
+
+                <fieldset>
+                    <legend>week</legend>
+                    <input type="week" placeholder="Week nn, yyyy" />
+                    <h3>Markup</h3>
+                    <code>&lt;input type=&quot;week&quot;&gt;</code>
+                </fieldset>
+
+                <fieldset>
+                    <legend>color</legend>
+                    <input type="color" placeholder="#rrggbb" />
+                    <h3>Markup</h3>
+                    <code>&lt;input type=&quot;color&quot;&gt;</code>
+                </fieldset>
+
+                <fieldset>
+                    <legend>email</legend>
+                    <input type="email" placeholder="roman.bazelides@gmail.com" />
+                    <h3>Markup</h3>
+                    <code>&lt;input type=&quot;email&quot;&gt;</code>
+                </fieldset>
+
+                <fieldset>
+                    <legend>tel</legend>
+                    <input type="tel" placeholder="0904123123" pattern="[0-9]{10}" title="10 digits" />
+                    <h3>Markup</h3>
+                    <code>&lt;input type=&quot;tel&quot; pattern=&quot;[0-9]{10}&quot;&gt;</code>
+                </fieldset>
+
+                <fieldset>
+                    <legend>range</legend>
+                    <input type="range" min="1" max="20" step="2" />
+                    <h3>Markup</h3>
+                    <code>&lt;input type=&quot;range&quot; min=&quot;1&quot; max=&quot;10&quot;&gt;</code>
+                </fieldset>
+
+                <fieldset>
+                    <legend>number</legend>
+                    <input type="number" placeholder="0-99999" min="0" max="99999" />
+                    <h3>Markup</h3>
+                    <code>&lt;input type=&quot;number&quot;&gt;</code>
+                </fieldset>
+
+                <fieldset>
+                    <legend>url</legend>
+                    <input type="url" placeholder="http://www.tuke.sk" />
+                    <h3>Markup</h3>
+                    <code>&lt;input type=&quot;url&quot;&gt;</code>
+                </fieldset>
+
+                <fieldset>
+                    <legend>search</legend>
+                    <input type="search" list="car-manufacturers" placeholder="tttt" />
+                    <datalist id="car-manufacturers">
+                        <option value="Audi" />
+                        <option value="BMW" />
+                        <option value="Fiat" />
+                        <option value="Honda" />
+                        <option value="Volkswagen" />
+                    </datalist>
+                    <h3>Markup</h3>
+                    <code>
+                        <pre>
+&lt;input type=&quot;search&quot; list=&quot;car-manufacturers&quot;&gt;
+&lt;datalist id=&quot;car-manufacturers&quot;&gt;
+    &lt;option value=&quot;Audi&quot;&gt;
+    &lt;option value=&quot;BMW&quot;&gt;
+    &lt;option value=&quot;Fiat&quot;&gt;
+    &lt;option value=&quot;Honda&quot;&gt;
+    &lt;option value=&quot;Volkswagen&quot;&gt;
+&lt;/datalist&gt;</pre>
+                    </code>
+                </fieldset>
+            </section>
+            <section>
+                <input class="button" type="submit" value="Submit!" />
+                <input class="button" type="reset" value="Reset!" />
+            </section>
+        </form>
+    </article>
+</body>
+</html>

@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <canvas id="myCanvas">Sorry, your browser does not support canvas.</canvas>
+    <script type="text/javascript">
+        // Get the canvas element and its drawing context.
+        var canvas = document.getElementById('myCanvas');
+        var context = canvas.getContext('2d');
+
+        // Clear any existing content in the canvas.       
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Set the stroke color and the fill color.       
+        context.strokeStyle = "rgb(0, 0, 255)";
+        context.fillStyle = "rgba(255, 0, 0, 0.75)";
+
+        // Create a path in absolute coordinates.       
+        context.beginPath(); // tell browser we are going to draw a path
+        context.moveTo(60, 30);
+        context.lineTo(100, 90); // \
+        context.lineTo(20, 90); // _
+
+        // Close the path.       
+        context.closePath(); // /
+
+        // Draw the path as a stroked shape;       
+        context.stroke();
+
+        // Draw the path as a filled shape.       
+        context.fill();
+    </script>
+</body>
+</html>

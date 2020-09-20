@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Async/Await</title>
+</head>
+<body>
+    <p>Please see the F12 console</p>
+    <script>
+        const timeoutIntervalInMs = 1000;
+        const logToConsole = (text, caller) => console.log(text, caller);
+
+        // original code (leads to callback hell)
+        const getDateOriginal = function(caller) {
+            setTimeout(function(text) {
+                logToConsole(text, caller)
+            }, timeoutIntervalInMs, new Date());
+        };
+        getDateOriginal("from getDateOriginal");
+
+        // callback
+        const getDateUsingCallbacks = (caller) => {
+            const getDate = (callback) => {
+                const date = new Date();
+                setTimeout(() => callback(date), timeoutIntervalInMs);
+            };
+            
+            getDate((date) => logToConsole(date, caller));
+        };
+        getDateUsingCallbacks("from getDateUsingCallbacks");
+        
+        // promises
+        const getDateUsingPromises = (caller) => {
+            const getDate = () => {
+                const date = new Date();
+                return new Promise(resolve => setTimeout(() => resolve(date), timeoutIntervalInMs));
+            };
+
+            getDate()
+                .then(date => logToConsole(date, caller));
+        };
+        getDateUsingPromises("from getDateUsingPromises");
+
+        // async/await
+        const getDateUsingAsync = async (caller) => {
+            const getDateAsync = async () => {
+                const date = new Date();
+                return new Promise(resolve => setTimeout(() => resolve(date), timeoutIntervalInMs));
+            };
+
+            const date = await getDateAsync();
+            logToConsole(date, caller);
+        }
+        getDateUsingAsync("from getDateUsingAsync");
+    </script>
+</body>
+</html>

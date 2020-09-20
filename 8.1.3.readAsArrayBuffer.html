@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>readAsArrayBuffer</title>
+</head>
+<body>
+    <fieldset><input type="file" id="theTextFile" onchange="onLoadTextFile()" /></fieldset>
+    <fieldset><textarea id="theMessageArea" rows="30" cols="40"></textarea></fieldset> 
+    <script type="text/javascript">
+        function onLoadTextFile() {
+            var CHUNK_SIZE = 256;
+            var theFileElem = document.getElementById("theTextFile");
+            // Get the File object selected by the user, and make sure it is a text file.
+            if (theFileElem.files.length != 0 && theFileElem.files[0].type.match(/text.*/)) {
+                // Create a FileReader and handle the onload and onerror events.
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var theMessageAreaElem = document.getElementById("theMessageArea");
+                    var arrayBuffer = e.target.result;
+                    var array = new Uint8Array(arrayBuffer);
+                    var text = new TextDecoder('utf-8').decode(array.slice(0, CHUNK_SIZE));
+                    theMessageAreaElem.value = text;
+                };
+                reader.onerror = function (e) {
+                    alert("Cannot load text file");
+                };
+
+                // Read the file
+                reader.readAsArrayBuffer(theFileElem.files[0]);
+            }
+            else { alert("Please select a TEXT file"); }
+        }
+    </script>
+</body>
+
+</html>

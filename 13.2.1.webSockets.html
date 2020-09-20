@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Web Sockets</title>
+</head>
+<body>
+    <article>
+        <h1>Web Sockets</h1>
+        <form onsubmit="return false">
+            <label>Enter some message: <input id="txtMessage" type="text" /></label>
+            <input id="btnSend" type="submit" value="Send Message" />
+            <input id="btnClose" type="button" value="Close Connection" />
+        </form>
+        <ol id="lstMessages">
+        </ol>
+    </article>
+
+    <script>
+        var ws;
+        var wsUri = "wss://echo.websocket.org/";
+        function init() {
+            ws = new WebSocket(wsUri);
+            ws.onopen = function() { log("connection opened"); };
+            ws.onclose = function() { log("connection closed"); };
+            ws.onmessage = function(evt) { log(`message received: ${evt.data}`); };
+            ws.onerror = function(evt) { log(`socket error: ${evt.data}`); };
+        }
+
+        window.addEventListener("load", init);
+
+        var btnSend = document.getElementById("btnSend");
+        var btnClose = document.getElementById("btnClose");
+        var txtMessage = document.getElementById("txtMessage");
+        var lstResults = document.getElementById("lstResults");
+        
+        btnSend.addEventListener("click", function () {
+            var message = txtMessage.value;
+            txtMessage.value = "";
+            sendMessage(message);
+        });
+
+        function sendMessage(message) {
+            log(`message sent: ${message}`);
+            ws.send(message);
+        }
+
+        btnClose.addEventListener("click", function () {
+            ws.close();
+        });
+
+        function log(message) {
+            lstMessages.innerHTML += `<li>${message}</li>`;
+        }
+    </script>
+</body>
+</html>

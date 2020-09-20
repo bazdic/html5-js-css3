@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrow Functions</title>
+</head>
+<body>
+    <p>Please see the F12 console</p>
+    <script>
+        const functionExpression = function(text) {
+            return "Hello from " + text;
+        }
+        console.log(functionExpression("functionExpression"));
+
+        const arrowFunction1 = (text) => {
+            return "Hello from " + text;
+        }
+        console.log(arrowFunction1("arrowFunction1"));
+
+        const arrowFunction2 = text => {
+            return "Hello from " + text;
+        }
+        console.log(arrowFunction2("arrowFunction2"));
+
+        const arrowFunction3 = text => "Hello from " + text;
+        console.log(arrowFunction3("arrowFunction3"));
+
+        const arrowFunctionParameterless = () => console.log(new Date());
+        arrowFunctionParameterless();
+    </script>
+</body>
+</html>

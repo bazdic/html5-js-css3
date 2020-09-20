@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript" src="jquery-2.1.1.min.js"></script>
+</head>
+
+<body>
+    <h1>please check the console</h1>
+    <script type="text/javascript">
+        $(function () {
+            executeDbSample();
+
+            async function executeDbSample() {
+                var dbName = "kosiceDB";
+                var tableName = "attendees";
+
+                try {
+                    await deleteDbIfExistsAsync(dbName);
+                    var dbHandle = await openDbAsync(dbName);
+                    await createDbStructureAsync(dbHandle, tableName);
+                    var addedId = await addDbEntryAsync(dbHandle, tableName);
+                    var dbEntry = await readDbEntryAsync(dbHandle, tableName, addedId);
+                    console.dir(dbEntry);
+                }
+                catch (ex) {
+                    alert(`executeDbSample resulted in error!\n${ex}`);
+                }
+            }
+
+            function deleteDbIfExistsAsync(dbName) {
+                var deleteDbPromise = new Promise((resolve, reject) => {
+                    var deleteRequest = indexedDB.deleteDatabase(dbName);
+
+                    deleteRequest.onsuccess = function (event) {
+                        console.log('DB successfully deleted');
+                        resolve();
+                    }
+
+                    deleteRequest.onerror = function (event) {
+                        console.log('DB deletion resulted in error')
+                        reject(event.target.error);
+                    }
+                });
+                return deleteDbPromise;
+            }
+
+            function openDbAsync(dbName) {
+                var openDbPromise = new Promise((resolve, reject) => {
+                    // Reference to the database to use, more than one DB can exist (e.g. 1 for each application)
+                    var openRequest = indexedDB.open(dbName, 1); // increase version number for each DB structure change !!!
+
+                    openRequest.onupgradeneeded = function (event) {
+                        console.log('DB needs upgrade');
+                        resolve(event.target.result);
+                    };
+
+                    openRequest.onsuccess = function (event) {
+                        console.log('DB successfully opened');
+                    };
+
+                    openRequest.onerror = function (event) {
+                        console.log('DB open resulted in error');
+                        reject(event.target.error);
+                    };
+                });
+                return openDbPromise;
+            }
+
+            function createDbStructureAsync(dbHandle, tableName, keyProperty) {
+                var createDbStructurePromise = new Promise((resolve, reject) => {
+                    // create table
+                    var objectStore = dbHandle.createObjectStore(tableName, { keyPath: "id" });
+
+                    // Use transaction oncomplete to make sure the objectStore creation is 
+                    // finished before adding data into it
+                    objectStore.transaction.oncomplete = function (event) {
+                        console.log('DB structure successfully created');
+                        resolve();
+                    }
+
+                    objectStore.transaction.onerror = function (error) {
+                        console.log('DB structure creation resulted in error');
+                        reject(event.target.error);
+                    }
+                });
+                return createDbStructurePromise;
+            }
+
+            function addDbEntryAsync(dbHandle, tableName) {
+                var addDbEntryPromise = new Promise((resolve, reject) => {
+                    var attendee = {
+                        id: "1",
+                        name: "Milan Slivka",
+                        password: "Pa$$w0rd"
+                    };
+
+                    // open the objectStore (table) in transaction
+                    var attendeeObjectStore = dbHandle.transaction(tableName, "readwrite").objectStore(tableName);
+                    // Store values in the newly created objectStore
+                    var addRequest = attendeeObjectStore.add(attendee);
+
+                    addRequest.onsuccess = function (event) {
+                        console.log("DB entry successfully added");
+                        resolve(event.target.result);
+                    }
+                    addRequest.onerror = function (event) {
+                        console.log("DB entry addition resulted in error");
+                        reject(event.target.error);
+                    };
+                });
+                return addDbEntryPromise;
+            }
+
+            function readDbEntryAsync(dbHandle, tableName, id) {
+                var readDbEntryPromise = new Promise((resolve, reject) => {
+                    console.log(`getting item with the ID = ${id} from the table ${tableName} ...`);
+
+                    var getRequest = dbHandle.transaction(tableName).objectStore(tableName).get(id);
+
+                    getRequest.onsuccess = function (event) {
+                        console.log("DB entry successfully read");
+                        resolve(event.target.result);
+                    }
+
+                    getRequest.onerror = function (event) {
+                        console.log("DB entry read resulted in error");
+                        reject(event.target.error);
+                    }
+                });
+                return readDbEntryPromise;
+            }
+        });
+    </script>
+</body>
+
+</html>

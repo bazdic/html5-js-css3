@@ -1,0 +1,125 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Storages</title>
+    <script type="text/javascript" src="jquery-2.1.1.min.js"></script>
+    <style type="text/css">
+        h2 {
+            color: red;
+        }
+
+        article {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+            article > fieldset {
+                flex: 1 1 100px;
+            }
+
+        #lbSessionData, #lbLocalData {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Session and Local Storages<h1>
+        <h2>!!!! Run Chrome with --allow-file-access-from-files OR host page in web server OR use Firefox instead  !!!!</h2>
+    </header>
+    <article>
+        <fieldset>
+            <legend>Session storage</legend>
+            <input id="btnAddToSession" type="button" value="Add To Session Storage" />
+            <input id="btnClearSession" type="button" value="Clear Session Storage" />
+            <select id="lbSessionData" size="15"></select>
+        </fieldset>
+
+        <fieldset>
+            <legend>Local storage</legend>
+            <input id="btnAddToLocal" type="button" value="Add To Local Storage" />
+            <input id="btnClearLocal" type="button" value="Clear Local Storage" />
+            <select id="lbLocalData" size="15"></select>
+        </fieldset>
+    </article>
+    <div id="updateMessage">No updates yet.</div>
+    <script type="text/javascript">
+        $(function () {
+            var lbSessionData = $("#lbSessionData");
+            $("#btnAddToSession").on("click", function () {
+                sessionStorage.setItem(getNewKey(), getNewItem());
+                reloadListbox(lbSessionData, sessionStorage);
+            });
+            $("#btnClearSession").on("click", function () {
+                sessionStorage.clear();
+                reloadListbox(lbSessionData, sessionStorage);
+            });
+            reloadListbox(lbSessionData, sessionStorage);
+
+            var lbLocalData = $("#lbLocalData");
+            $("#btnAddToLocal").on("click", function () {
+                localStorage.setItem(getNewKey(), getNewItem());
+                reloadListbox(lbLocalData, localStorage);
+            });
+            $("#btnClearLocal").on("click", function () {
+                localStorage.clear();
+                reloadListbox(lbLocalData, localStorage);
+            });
+            reloadListbox(lbLocalData, localStorage);
+
+            $(window).on("storage", function (event) {
+                // get the listbox we are going to work with
+                var listbox = (event.originalEvent.storageArea === sessionStorage) ? lbSessionData : lbLocalData;
+
+                // clear listbox or add new item
+                if (event.originalEvent.key === null) { // empty key means the storage was cleared
+                    clearListbox(listbox);
+                }
+                else {
+                    addItemToListbox(event.originalEvent.newValue, listbox);
+                }
+                
+                // show details of storage update
+                storageChanged(event.originalEvent);
+            });
+
+            function clearListbox(listbox) {
+                listbox.html("");
+            }
+
+            function reloadListbox(listbox, storage) {
+                clearListbox(listbox);
+                for (var i = 0; i < storage.length; i++) {
+                    addItemToListbox(storage[storage.key(i)], listbox);
+                }
+            }
+
+            function addItemToListbox(item, listbox) {
+                listbox.append("<option>" + item + "</option>");
+            }
+
+            var lastUsedKey = 0;
+            function getNewKey() {
+                return lastUsedKey++;
+            }
+
+            function getNewItem() {
+                return new Date().toString();
+            }
+
+            function storageChanged(e) {
+                var isLocalStorage = e.storageArea === localStorage;
+                var msg = (isLocalStorage ? "Local" : "Session") + " storage updated.";
+                msg += "<br>Key: " + e.key;
+                msg += "<br>Old Value: " + e.oldValue;
+                msg += "<br>New Value: " + e.newValue;
+                msg += "<br>URL: " + e.url;
+
+                $("#updateMessage").html(msg);
+            }
+        });
+    </script>
+</body>
+</html>

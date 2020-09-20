@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        @keyframes ballmovement {
+            0% {
+                left: 0px;
+                top: 0px;
+                background-color: yellow;
+            }
+
+            33% {
+                left: 100px;
+                top: 160px;
+            }
+
+            66% {
+                left: 200px;
+                top: 0px;
+            }
+
+            100% {
+                left: 300px;
+                top: 160px;
+                background-color: green;
+            }
+        }
+
+        #ball {
+            position: relative;
+            height: 100px;
+            width: 100px;
+            border-radius: 50% 50%;
+            background: yellow;
+            animation: ballmovement 1.25s linear infinite alternate;
+        }
+
+        #eventLog {
+            margin-top: 160px;
+            width: 50px;
+            min-height: 1em;
+            border: 1px solid #888;
+            box-shadow: #ddd 3px 2px;
+        }
+    </style>
+    <script src="jquery-2.1.1.min.js"></script>
+</head>
+<body>
+    <div id="ball"></div>
+    <div id="eventLog"></div>
+    <script>
+        $(function () {
+            var eventLog = $("#eventLog");
+            var ball = $("#ball");
+            ball.on("animationiteration", function (event) {
+                eventLog.append("<div>" + event.originalEvent.elapsedTime + "s</div>");
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaining Promises</title>
+</head>
+<body>
+    <p>Please see the F12 console</p>
+    <script>
+        const timeoutIntervalInMs = 500;
+        const logToConsole = (text, caller) => console.log(text, caller);
+        const errorToConsole = (error, caller) => console.log(error, caller);
+        
+        // original code (leads to callback hell)
+        const getAndProcessOriginal = function(caller) {
+            try {
+                // throw new Error("simulated network error");
+                setTimeout(function(rawData) { // get data
+                    try {
+                        // throw new Error("simulated network error");
+                        setTimeout(function(processedData) { // process data
+                            logToConsole(processedData, caller) // output data
+                        }, timeoutIntervalInMs, rawData.toString());
+                        
+                    } catch(e) {
+                        errorToConsole(e, caller);
+                    }
+                }, timeoutIntervalInMs, new Date());
+            } catch(e) {
+                errorToConsole(e, caller);
+            }
+        };
+        getAndProcessOriginal("from getAndProcessOriginal");
+        
+        // callback
+        const getAndProcessUsingCallbacks = (caller) => {
+            const getData = (callback) => {
+                try {
+                    // throw new Error("simulated network error");
+                    const rawData = new Date();
+                    setTimeout(() => callback(rawData), timeoutIntervalInMs);
+                } catch(e) {
+                    errorToConsole(e, caller);
+                }
+            };
+            const processData = (rawData, callback) => {
+                try {
+                    // throw new Error("simulated network error");
+                    const processedData = rawData.toString();
+                    setTimeout(() => callback(processedData), timeoutIntervalInMs);
+                } catch(e) {
+                    errorToConsole(e, caller);
+                }
+            };
+
+            // adding try/catch here won't handle exceptions in processData
+            getData((rawData) => 
+                processData(rawData, (processedData) => 
+                    logToConsole(processedData, caller)));
+        };
+        getAndProcessUsingCallbacks("from getAndProcessUsingCallbacks");
+
+        // promises
+        const getAndProcessUsingPromises = (caller) => {
+            const getData = () => {
+                try {
+                    // throw new Error("simulated network error");
+                    const rawData = new Date();
+                    return new Promise(resolve => setTimeout(() => resolve(rawData), timeoutIntervalInMs));
+                } catch(e) {
+                    return Promise.reject(e);
+                }
+            };
+            const processData = (rawData) => {
+                try {
+                    // throw new Error("simulated network error");
+                    const processedData = rawData.toString();
+                    return new Promise(resolve => setTimeout(() => resolve(processedData), timeoutIntervalInMs));
+                } catch(e) {
+                    return Promise.reject(e);
+                }
+            };
+
+            getData()
+                .then(rawData => processData(rawData))
+                .then(processedData => logToConsole(processedData, caller))
+                .catch(e => errorToConsole(e, caller));
+        };
+        getAndProcessUsingPromises("from getAndProcessUsingPromises");
+
+        // async/await
+        const getAndProcessUsingAsync = async (caller) => {
+            const getDataAsync = async () => {
+                // throw new Error("simulated network error");
+                const rawData = new Date();
+                return new Promise(resolve => setTimeout(() => resolve(rawData), timeoutIntervalInMs));
+            };
+
+            const processDataAsync = async (rawData) => {
+                // throw new Error("simulated network error");
+                const processedData = rawData.toString();
+                return new Promise(resolve => setTimeout(() => resolve(processedData), timeoutIntervalInMs));
+            };
+
+            try {
+                // throw new Error("simulated network error");
+                const rawData = await getDataAsync();
+                const processedData = await processDataAsync(rawData);
+                logToConsole(processedData, caller);
+            } catch(e) {
+                errorToConsole(e, caller);
+            }
+        }
+        getAndProcessUsingAsync("from getAndProcessUsingAsync");
+    </script>
+</body>
+</html>

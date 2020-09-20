@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        img {
+            height: 100px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div id="images"></div>
+    <script>
+        function processImages(data)
+        {
+            var images = document.getElementById("images");
+            var html = "";
+            for(var i=0;i<10;i++) {
+                var item = data.items[i];
+                html += "<img src='" + item.media.m + "' />"
+            }
+            images.innerHTML = html;
+        }
+        
+        const showPicturesOfKosice = () => {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'http://api.flickr.com/services/feeds/photos_public.gne?tags=kosice&format=json&jsoncallback=processImages';
+            // put script.src into the browser to see the content is actually a javascript code and that's why there's CORS issue
+            
+            document.getElementsByTagName('head')[0].appendChild(script);
+        };
+        showPicturesOfKosice();
+    </script>
+</body>
+</html>

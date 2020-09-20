@@ -1,0 +1,90 @@
+﻿<!--http://jsfiddle.net/W7L7B/-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FLEX layout</title>
+    <script src="jquery-2.1.1.js"></script>
+    <style type="text/css">
+        div {
+            width: 100px;
+            height: 100px;
+        }
+
+        .red {
+            background: red;
+            border: solid 1px black;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Please see the F12 console</p>
+    <script>
+        // Immediately executed function
+        (function () {
+            // Variables defined inside the function disappear when the function finishes
+            // - they will not conflict with variables defined by other scripts
+            var localVar = 3;
+            var localVar2 = 2;
+            // The same logic applies to functions
+            // - they are destroyed when the immediately invoked function finishes
+            function localFunc() {
+                localVar = 99;
+                // do something else
+            }
+            // define some other functions
+            localFunc(); // Run localFunc
+        })();
+        console.log(localVar2); // will throw an error
+
+        // Namespaces
+        var MyNamespace = {
+            myFunction1: function (someParameters) {
+                // Implementation code…
+            },
+            myFunction2: function (someParameters) {
+                // Implementation code…
+            },
+            message: "Hello World",
+            count: 42
+        }
+        console.log(MyNamespace.count) // everything is publicly visible => DANGEROUS
+
+        // Strict mode
+        function someFunction() {
+            "use strict";
+            var errorCode = 100; // local variable
+            errorMessage = 0; // GLOBAL variable, will throw error because of "use strict";
+        }
+        someFunction(); // will throw an error
+
+        // Module with namespace
+        var MySecondNamespace = MySecondNamespace || {};
+        MySecondNamespace.MyModule = (function () {
+            // declare all properties/methods
+            var _isInitialized = false;
+
+            function _setCssClasses (className) {
+                $('div').each(function (index, target) {
+                    target.className = className;
+                });
+            };
+
+            function _init () {
+                _isInitialized = true;
+            };
+
+            _init();
+
+            return { // make some members public
+                setCssClasses: _setCssClasses,
+                isInitialized: _isInitialized
+            };
+        }());
+        console.log(MySecondNamespace.MyModule.isInitialized); // only visible property
+        MySecondNamespace.MyModule.setCssClasses("red");
+    </script>
+</body>
+
+</html>
