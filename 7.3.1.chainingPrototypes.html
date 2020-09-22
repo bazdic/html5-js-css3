@@ -34,12 +34,12 @@
             return "Name: " + this.name + ", Age: " + this.age + ", Subject: " + this.subject;
         }
         // prove the Student inherited properties of Person
-        var s = new Student("Milan", 20, "Fyzika");
+        var s = new Student("Mike", 20, "Math");
         s.haveBirthday(); s.haveBirthday();
         console.log(s);
 
         // prove the Person was not modified
-        var p = new Person("Kamil", 20);
+        var p = new Person("Jon", 20);
         s.haveBirthday(); s.haveBirthday();
         console.log(p);
     </script>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ES2015 Modules</title>
+</head>
+<body>
+    <p>Please run the http-server and see the F12 console</p>
+    <script type="module">
+        import { log } from './7.1.2.modules.mjs';
+        import * as namedLogger from './7.1.2.modules.mjs';
+        import defaultLogger from './7.1.2.modules.mjs';
+
+        log("logging from ES6 module");
+        namedLogger.warn("make sure the HTTP server is running");
+        defaultLogger.error("that's just for the test purposes");
+    </script>
+</body>
+</html>
