@@ -202,7 +202,8 @@
                 var isValid = validateFormOnSubmit(event.target.id);
                 if (isValid === false) {
                     alert("Validation failed!");
-                    event.preventDefault();
+                    event.stopPropagation(); // break the chain of events (in both capture and bubble directions)
+                    event.preventDefault(); // prevent browser from running default action
                 }
             });
             */

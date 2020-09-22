@@ -3,78 +3,65 @@
 
 <head>
     <title>FLEX layout</title>
-    <style type="text/css">
+    <style>
         .flex-container {
             display: flex;
-
-            margin-bottom: 20px;
+            background: #eee;
+            width: 300px;
+            margin-bottom: 10px;
 
             resize: horizontal;
             overflow: hidden;
-        }
-
-        #normal {
-            width: 200px;
-            /* polozky akurat vojdu */
-        }
-
-        #grow {
-            width: 300px;
-            /* zvacsujeme o 100px v pomere 3:1 */
-        }
-
-        #shrink {
-            width: 100px;
-            /* zmensujeme o 100px v pomere 3:1 */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
         }
 
         .flex-item {
             width: 100px;
-            flex-basis: auto;
-
-            height: 100px;
+            
             text-align: center;
             vertical-align: middle;
-            line-height: 100px;
-            border: red solid 1px;
-            box-shadow: #808080 2px 2px;
+            line-height: 1.4;
+            outline: 1px solid #ccc;
         }
 
-        .flex-item:nth-child(1) {
-            flex-grow: 3;
-            flex-shrink: 3;
-        }
-
-        .flex-item:nth-child(2) {
-            flex-grow: 1;
-            flex-shrink: 1;
-        }
+        .flex-item.auto { flex: auto; }
+        .flex-item.initial { flex: initial; }
+        .flex-item.none { flex: none; }
+        .flex-item.f1 { flex: 1; }
+        .flex-item.f2 { flex: 2; }
     </style>
 </head>
 
 <body>
     <p>
-        <strong><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/flex/" target="_blank">MDN Flex</a></strong>,
-        <strong><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">CssTricks Flexbox</a></strong>
+        In general, apply:
+        <ul>
+            <li><code>display: flex</code> to <strong>container</strong></li>
+            <li><code>flex: auto || initial || none || &lt;number&gt;</code> to <strong>items</strong></li>
+        </ul>
     </p>
 
-    <span>normal (container width 200px)</span>
-    <div id="normal" class="flex-container">
-        <div class="flex-item">3x</div>
-        <div class="flex-item">1x</div>
+    <div class="flex-container">
+        <div class="flex-item auto">auto</div>
+        <div class="flex-item auto">auto</div>
+    </div>
+    <div class="flex-container">
+        <div class="flex-item auto">auto</div>
+        <div class="flex-item initial">initial</div>
+    </div>
+    <div class="flex-container">
+        <div class="flex-item auto">auto</div>
+        <div class="flex-item none">none</div>
+    </div>
+    <div class="flex-container">
+        <div class="flex-item f2">2</div>
+        <div class="flex-item f1">1</div>
     </div>
 
-    <span>shrink (container width 100px)</span>
-    <div id="shrink" class="flex-container">
-        <div class="flex-item">3x</div>
-        <div class="flex-item">1x</div>
-    </div>
-
-    <span>grow (container width 300px)</span>
-    <div id="grow" class="flex-container">
-        <div class="flex-item">3x</div>
-        <div class="flex-item">1x</div>
-    </div>
+    <p>
+        For further details see
+        <strong><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">CssTricks Flexbox</a></strong>
+    </p>
 </body>
 
 </html>

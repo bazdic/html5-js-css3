@@ -11,30 +11,35 @@
         const timeoutIntervalInMs = 500;
         const logToConsole = (text, caller) => console.log(text, caller);
         
-        // original code (leads to callback hell)
+        // callback hell
         const getAndProcessOriginal = function(caller) {
-            setTimeout(function(rawData) { // get data
-                setTimeout(function(processedData) { // process data
-                    logToConsole(processedData, caller) // output data
-                }, timeoutIntervalInMs, rawData.toString());
-            }, timeoutIntervalInMs, new Date());
+            // get data
+            const rawData = new Date();
+            setTimeout(function() {
+                // process data
+                const processedData = rawData.toTimeString();
+                setTimeout(function() { 
+                    // display data
+                    logToConsole(processedData, caller);
+                }, timeoutIntervalInMs, rawData.toTimeString());
+            }, timeoutIntervalInMs);
         };
         getAndProcessOriginal("from getAndProcessOriginal");
         
-        // callback
+        // arrow functions
         const getAndProcessUsingCallbacks = (caller) => {
             const getData = (callback) => {
                 const rawData = new Date();
                 setTimeout(() => callback(rawData), timeoutIntervalInMs);
             };
             const processData = (rawData, callback) => {
-                const processedData = rawData.toString();
+                const processedData = rawData.toTimeString();
                 setTimeout(() => callback(processedData), timeoutIntervalInMs);
             };
 
-            getData((rawData) => 
-                processData(rawData, (processedData) => 
-                    logToConsole(processedData, caller)));
+            const processDataCallback = (processedData) => logToConsole(processedData, caller);
+            const getDataCallback = (rawData) => processData(rawData, processDataCallback);
+            getData(getDataCallback);
         };
         getAndProcessUsingCallbacks("from getAndProcessUsingCallbacks");
 
@@ -42,16 +47,18 @@
         const getAndProcessUsingPromises = (caller) => {
             const getData = () => {
                 const rawData = new Date();
-                return new Promise(resolve => setTimeout(() => resolve(rawData), timeoutIntervalInMs));
+                const executor = (resolve) => setTimeout(() => resolve(rawData), timeoutIntervalInMs);
+                return new Promise(executor);
             };
             const processData = (rawData) => {
-                const processedData = rawData.toString();
-                return new Promise(resolve => setTimeout(() => resolve(processedData), timeoutIntervalInMs));
+                const processedData = rawData.toTimeString();
+                const executor = (resolve) => setTimeout(() => resolve(processedData), timeoutIntervalInMs)
+                return new Promise(executor);
             };
 
-            getData()
-                .then(rawData => processData(rawData))
-                .then(processedData => logToConsole(processedData, caller));
+            const getDataPromise = getData();
+            const processDataPromise = getDataPromise.then(rawData => processData(rawData));
+            processDataPromise.then(processedData => logToConsole(processedData, caller));
         };
         getAndProcessUsingPromises("from getAndProcessUsingPromises");
 
@@ -59,12 +66,14 @@
         const getAndProcessUsingAsync = async (caller) => {
             const getDataAsync = async () => {
                 const rawData = new Date();
-                return new Promise(resolve => setTimeout(() => resolve(rawData), timeoutIntervalInMs));
+                const executor = (resolve) => setTimeout(() => resolve(rawData), timeoutIntervalInMs);
+                return new Promise(executor);
             };
 
             const processDataAsync = async (rawData) => {
-                const processedData = rawData.toString();
-                return new Promise(resolve => setTimeout(() => resolve(processedData), timeoutIntervalInMs));
+                const processedData = rawData.toTimeString();
+                const executor = (resolve) => setTimeout(() => resolve(processedData), timeoutIntervalInMs)
+                return new Promise(executor);
             };
 
             const rawData = await getDataAsync();

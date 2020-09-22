@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Model</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        section {
+            background-color: #ccc;
+            /* apply overflow to fix the issue below */
+            /* overflow: auto; */
+        }
+        .box {
+            /*  ISSUE: top/bottom light gray margins above sections are missing
+                whereas left/right light gray margins are not
+
+                https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing 
+                
+                # Empty blocks
+                If there is no border, padding, inline content, height, 
+                or min-height to separate a block's margin-top from its 
+                margin-bottom, then its top and bottom margins collapse.
+                => both empty div and section elements are ignored
+
+                # No content separating parent and descendants 
+                ... The collapsed margin ends up outside the parent.
+                => margins are applied outside of the section elements
+
+                # Adjacent siblings
+                The (vertical) margins of adjacent siblings are collapsed.
+                => margin size equals to the greater of the two margins
+            
+                https://www.w3.org/TR/CSS2/box.html#collapsing-margins
+                
+                # Horizontal margins never collapse. 
+                => margin-left and margin-right is applied to .box element
+            
+                Margins of elements that establish new block formatting 
+                contexts (such as floats and elements with 'overflow' other 
+                than 'visible') do not collapse with their in-flow children.
+                => apply overflow: auto (or hidden) to section elements
+            */
+            margin: 20px;
+            line-height: 40px;
+            padding: 20px;
+
+            background-color: #999;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <div class="box">Box 1</div>
+        <div class="empty"></div>
+    </section>
+    <section class="empty"></section>
+    <section>
+        <div class="box">Box 2</div>
+    </section>
+</body>
+</html>

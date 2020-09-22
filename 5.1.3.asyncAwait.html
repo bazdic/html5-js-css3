@@ -11,48 +11,45 @@
         const timeoutIntervalInMs = 1000;
         const logToConsole = (text, caller) => console.log(text, caller);
 
-        // original code (leads to callback hell)
-        const getDateOriginal = function(caller) {
-            setTimeout(function(text) {
-                logToConsole(text, caller)
-            }, timeoutIntervalInMs, new Date());
+        // callback hell
+        const getDataOriginal = function(caller) {
+            setTimeout(function() {
+                logToConsole(new Date(), caller);
+            }, timeoutIntervalInMs);
         };
-        getDateOriginal("from getDateOriginal");
+        getDataOriginal("from getDataOriginal");
 
-        // callback
-        const getDateUsingCallbacks = (caller) => {
-            const getDate = (callback) => {
-                const date = new Date();
-                setTimeout(() => callback(date), timeoutIntervalInMs);
-            };
-            
-            getDate((date) => logToConsole(date, caller));
-        };
-        getDateUsingCallbacks("from getDateUsingCallbacks");
-        
         // promises
-        const getDateUsingPromises = (caller) => {
-            const getDate = () => {
-                const date = new Date();
-                return new Promise(resolve => setTimeout(() => resolve(date), timeoutIntervalInMs));
-            };
+        const getDataUsingPromises = (caller) => {
+            const getData = function() {
+                const executor = function(resolve) {
+                    setTimeout(function() {
+                        resolve(new Date());
+                    }, timeoutIntervalInMs);
+                };
+                return new Promise(executor);
+            }
 
-            getDate()
-                .then(date => logToConsole(date, caller));
+            const getDataPromise = getData();
+            getDataPromise.then((data) => logToConsole(data, caller));
         };
-        getDateUsingPromises("from getDateUsingPromises");
+        getDataUsingPromises("from getDataUsingPromises");
 
         // async/await
-        const getDateUsingAsync = async (caller) => {
-            const getDateAsync = async () => {
-                const date = new Date();
-                return new Promise(resolve => setTimeout(() => resolve(date), timeoutIntervalInMs));
-            };
+        const getDataUsingAsync = async (caller) => {
+            const getDataAsync = async function() {
+                const executor = function(resolve) {
+                    setTimeout(function() {
+                        resolve(new Date());
+                    }, timeoutIntervalInMs);
+                };
+                return new Promise(executor);
+            }
 
-            const date = await getDateAsync();
-            logToConsole(date, caller);
+            const data = await getDataAsync();
+            logToConsole(data, caller);
         }
-        getDateUsingAsync("from getDateUsingAsync");
+        getDataUsingAsync("from getDataUsingAsync");
     </script>
 </body>
 </html>

@@ -8,26 +8,26 @@
 <body>
     <p>Please see the F12 console</p>
     <script>
+        function functionDeclaration(text) {
+            return "Hello from " + text;
+        }
+        console.log(functionDeclaration("functionDeclaration"));
+
         const functionExpression = function(text) {
             return "Hello from " + text;
         }
         console.log(functionExpression("functionExpression"));
 
-        const arrowFunction1 = (text) => {
+        const arrowFunctionWithBody = (text) => {
             return "Hello from " + text;
         }
-        console.log(arrowFunction1("arrowFunction1"));
+        console.log(arrowFunctionWithBody("arrowFunctionWithBody"));
 
-        const arrowFunction2 = text => {
-            return "Hello from " + text;
-        }
-        console.log(arrowFunction2("arrowFunction2"));
+        const arrowFunctionInline = (text) => "Hello from " + text;
+        console.log(arrowFunctionInline("arrowFunctionInline"));
 
-        const arrowFunction3 = text => "Hello from " + text;
-        console.log(arrowFunction3("arrowFunction3"));
-
-        const arrowFunctionParameterless = () => console.log(new Date());
-        arrowFunctionParameterless();
+        const arrowFunctionParameterless = () => new Date();
+        console.log(arrowFunctionParameterless());
     </script>
 </body>
 </html>

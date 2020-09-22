@@ -8,16 +8,25 @@
 <body>
     <p>Please see the F12 console</p>
     <script>
+        const timeoutIntervalInMs = 1000;
         const logToConsole = (text) => console.log(text);
 
-        // callback
-        const getDateUsingCallbacks = () => setTimeout(logToConsole, 1000, new Date());
-        getDateUsingCallbacks();
-        
+        // callback hell
+        const getDataOriginal = function() {
+            setTimeout(function() {
+                logToConsole(new Date());
+            }, timeoutIntervalInMs);
+        };
+        getDataOriginal();
+
         // promises
-        const getDateUsingPromises = () => new Promise(resolve => setTimeout(resolve, 1000, new Date()));
-        getDateUsingPromises()
-            .then(logToConsole);
+        const getDataExecutor = function(resolve) {
+            setTimeout(function() {
+                resolve(new Date());
+            }, timeoutIntervalInMs);
+        };
+        const getDataPromise = new Promise(getDataExecutor);
+        getDataPromise.then(logToConsole);
     </script>
 </body>
 </html>
