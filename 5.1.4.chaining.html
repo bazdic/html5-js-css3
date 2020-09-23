@@ -18,10 +18,10 @@
             setTimeout(function() {
                 // process data
                 const processedData = rawData.toTimeString();
-                setTimeout(function() { 
+                setTimeout(function() {
                     // display data
                     logToConsole(processedData, caller);
-                }, timeoutIntervalInMs, rawData.toTimeString());
+                }, timeoutIntervalInMs);
             }, timeoutIntervalInMs);
         };
         getAndProcessOriginal("from getAndProcessOriginal");

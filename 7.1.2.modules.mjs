@@ -1,3 +1,5 @@
+// import { foo } from "foo.mjs";
+
 function getCurrentTime() {
     const date = new Date();
     return date.toLocaleTimeString('sk-SK', {

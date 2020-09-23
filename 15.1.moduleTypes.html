@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Modules</title>
+</head>
+<body>
+    <!-- ES2015 (ES6) Module -->
+    <script type="module">
+        import * as fooModule from './foo.mjs';
+
+        export function myFunction(data) {
+            return fooModule.doWork(data);
+        }
+    </script>
+
+    <!-- Common JS Module -->
+    <script>
+        const fooModule = require('./foo.cjs');
+
+        function myFunction(data) {
+            return fooModule.doWork(data);
+        }
+
+        exports.myFunction = myFunction;
+    </script>
+
+    <!-- AMD Module -->
+    <script>
+        define(['./foo'], function(fooModule){
+            function myFunction(data) {
+                return fooModule.doWork(data);
+            }
+
+            return {
+                myFunction: myFunction
+            }
+        });
+    </script>
+</body>
+</html>
