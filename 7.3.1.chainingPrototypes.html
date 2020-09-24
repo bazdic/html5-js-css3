@@ -32,16 +32,18 @@
         // extend base functionality in order to utilize added members
         Student.prototype.toString = function () {
             return "Name: " + this.name + ", Age: " + this.age + ", Subject: " + this.subject;
+            // alternatively call base's toString implementation within the context of this object
+            // return Person.prototype.toString.call(this) + ", Subject: " + this.subject;
         }
         // prove the Student inherited properties of Person
-        var s = new Student("Mike", 20, "Math");
-        s.haveBirthday(); s.haveBirthday();
-        console.log(s);
+        var student = new Student("Mike", 20, "Math");
+        student.haveBirthday(); student.haveBirthday();
+        console.log(student.toString());
 
         // prove the Person was not modified
-        var p = new Person("Jon", 20);
-        s.haveBirthday(); s.haveBirthday();
-        console.log(p);
+        var person = new Person("Jon", 20);
+        person.haveBirthday(); person.haveBirthday();
+        console.log(person.toString());
     </script>
 </body>
 </html>

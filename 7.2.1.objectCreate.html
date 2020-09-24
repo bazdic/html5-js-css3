@@ -37,10 +37,10 @@
 
         // this is how obj1 looks like
         // var obj1 = {
-        //     id = 1,
-        //     name = "John",
-        //     balance = 0,
-        //     numTransactions = 0,
+        //     id: 1,
+        //     name: "John",
+        //     balance: 0,
+        //     numTransactions: 0,
         //     deposit: function (amount) {
         //         this.balance += amount;
         //         this.numTransactions++;
@@ -69,7 +69,7 @@
             return Object.create(Account.prototype, props);
         }
         // create second instance
-        var obj2 =  accountFactory(2, "Mary");
+        var obj2 = accountFactory(2, "Mary");
 
         obj1.deposit(100); obj1.deposit(200); obj1.update();
         console.log("new Account(): " + obj1);
