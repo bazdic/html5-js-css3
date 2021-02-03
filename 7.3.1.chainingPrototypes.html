@@ -27,8 +27,8 @@
             Person.call(this, name, age); // call super constructor Person
             this.subject = subject;
         }
-        // use base constructor in order to not re-define all base members
-        Student.prototype = new Person();
+        // set prototype to new instance of base prototype in order to inherit base members
+        Student.prototype = Object.create(Person.prototype);
         // extend base functionality in order to utilize added members
         Student.prototype.toString = function () {
             return "Name: " + this.name + ", Age: " + this.age + ", Subject: " + this.subject;
@@ -41,7 +41,7 @@
         console.log(student.toString());
 
         // prove the Person was not modified
-        var person = new Person("Jon", 20);
+        var person = new Person("Greg", 20);
         person.haveBirthday(); person.haveBirthday();
         console.log(person.toString());
     </script>
